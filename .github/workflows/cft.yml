@@ -1,18 +1,10 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CFT
-
-# Controls when the workflow will run
+name: 'CFT'
 on:
-  # Triggers the workflow on push or pull request events but only for the "master" branch
-#   push:
-#     branches: [ "master" ]
-#   pull_request:
-#     branches: [ "master" ]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
     inputs:
+     
       choice:
         type: choice
         description: Action
@@ -28,9 +20,7 @@ on:
         - cert
         - prod     
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   CreateStack:
     if: ${{ inputs.choice == 'CreateStack' }}
     name: 'CFT'
@@ -40,16 +30,12 @@ jobs:
       uses: actions/checkout@v3
       
     - name: 'Create/Update Stack: ECRStack'
-      uses: aws-actions/aws-cloudformation-github-deploy@v1
+      uses: aws-actions/aws-cloudformation-github-deploy@v1  
       with:
        template: resource.yaml
-    - run: AmazonWebServices.aws-vsts-tools.CloudFormationCreateOrUpdateStack.CloudFormationCreateOrUpdateStack@1
+    - run: AmazonWebServices.aws-vsts-tools.CloudFormationCreateOrUpdateStack.CloudFormationCreateOrUpdateStack@1   
       
-      
-      
-      
-      
-  
+       
   DeleteStack:
     if: ${{ inputs.choice == 'DeleteStack' }}
     name: DeleteStack
@@ -63,8 +49,9 @@ jobs:
       with:
        template: resource.yaml
     - run: AmazonWebServices.aws-vsts-tools.CloudFormationDeleteStack.CloudFormationDeleteStack@1
-  
- 
+    outputs:
+          regionName: 'us-west-2'
+          stackName: ECRStack
 
 
 
