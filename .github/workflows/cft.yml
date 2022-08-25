@@ -43,7 +43,7 @@ jobs:
       uses: aws-actions/aws-cloudformation-github-deploy@v1
       with:
        template: resource.yaml
-#        run: AmazonWebServices.aws-vsts-tools.CloudFormationCreateOrUpdateStack.CloudFormationCreateOrUpdateStack@1
+    - run: AmazonWebServices.aws-vsts-tools.CloudFormationCreateOrUpdateStack.CloudFormationCreateOrUpdateStack@1
       
       
       
@@ -60,9 +60,9 @@ jobs:
       
     - name: 'Delete Stack: ECRStack'
       uses: aws-actions/aws-cloudformation-github-deploy@v1
-      
-    - name: 'Delete Stack: ECRStack'
-      run: AmazonWebServices.aws-vsts-tools.CloudFormationDeleteStack.CloudFormationDeleteStack@1
+      with:
+       template: resource.yaml
+    - run: AmazonWebServices.aws-vsts-tools.CloudFormationDeleteStack.CloudFormationDeleteStack@1
   
  
 
