@@ -41,13 +41,18 @@ jobs:
       
     - name: 'Create/Update Stack: ECRStack'
       uses: aws-actions/aws-cloudformation-github-deploy@v1
+      with:
+       template: resource.yaml
+       run: AmazonWebServices.aws-vsts-tools.CloudFormationCreateOrUpdateStack.CloudFormationCreateOrUpdateStack@1
       
-    - name: 'Create/Update Stack: ECRStack'
-      run: AmazonWebServices.aws-vsts-tools.CloudFormationCreateOrUpdateStack.CloudFormationCreateOrUpdateStack@1
+      
+      
+      
+      
   
   DeleteStack:
     if: ${{ inputs.choice == 'DeleteStack' }}
-    name: self-hosted
+    name: DeleteStack
     runs-on: self-hosted
     steps: 
     - name: Code Checkout
