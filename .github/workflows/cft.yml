@@ -36,6 +36,7 @@ jobs:
       uses: aws-actions/configure-aws-credentials@v1
       with:
         role-to-assume: arn:aws:iam::847370586410:role/JD-AppModernization-SME-Role
+        role-skip-session-tagging: true
         aws-region: us-east-2  
     - name: 'Create/Update Stack: ECRStack'
       uses: aws-actions/aws-cloudformation-github-deploy@v1  
