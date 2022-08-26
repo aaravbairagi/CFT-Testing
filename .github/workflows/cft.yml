@@ -18,7 +18,11 @@ on:
         - devl
         - qual
         - cert
-        - prod     
+        - prod
+      region:
+        description: The region to deploy ArgoCD to
+        required: true
+        default: us-west-2
 
 jobs:
   CreateStack:
@@ -32,9 +36,10 @@ jobs:
     - name: 'Create/Update Stack: ECRStack'
       uses: aws-actions/aws-cloudformation-github-deploy@v1  
       with:
-       template: resource.yaml
+       template: resource.yml
        parameter-overrides: env_params/${{inputs.environment}}.yml
-    - run: AmazonWebServices.aws-vsts-tools.CloudFormationCreateOrUpdateStack.CloudFormationCreateOrUpdateStack@1   
+    - run: aws cloudformation create-stack --stack-name CFT --template-body file://./resource.yml --parameters ${{inputs.environment}}.yml
+#     - run: AmazonWebServices.aws-vsts-tools.CloudFormationCreateOrUpdateStack.CloudFormationCreateOrUpdateStack@1   
       
        
   DeleteStack:
