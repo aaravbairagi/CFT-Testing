@@ -21,7 +21,7 @@ on:
         - prod
       region:
         description: The region to deploy ECR to
-        required: true
+#         required: true
         default: us-west-2
 
 jobs:
@@ -32,14 +32,18 @@ jobs:
     steps:
     - name: Code Checkout
       uses: actions/checkout@v3
-      
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        role-to-assume: arn:aws:iam::847370586410:role/JD-AppModernization-SME-Role
+        aws-region: us-east-2  
     - name: 'Create/Update Stack: ECRStack'
       uses: aws-actions/aws-cloudformation-github-deploy@v1  
       with:
        name: ECRStack
        template: resource.yml
        parameter-overrides: env_params/${{inputs.environment}}.yml
-       region: ${{inputs.region}}
+#        region: ${{inputs.region}}
 #     - run: aws cloudformation create-stack --stack-name CFT --template-body file:resource.yml --parameters ${{inputs.environment}}.yml
 #     - run: AmazonWebServices.aws-vsts-tools.CloudFormationCreateOrUpdateStack.CloudFormationCreateOrUpdateStack@1   
       timeout-minutes: 15
