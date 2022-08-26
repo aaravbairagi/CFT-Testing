@@ -40,7 +40,7 @@ jobs:
        template: resource.yml
        parameter-overrides: env_params/${{inputs.environment}}.yml
        region: ${{inputs.region}}
-    - run: aws cloudformation create-stack --stack-name CFT --template-body file:resource.yml --parameters ${{inputs.environment}}.yml
+#     - run: aws cloudformation create-stack --stack-name CFT --template-body file:resource.yml --parameters ${{inputs.environment}}.yml
 #     - run: AmazonWebServices.aws-vsts-tools.CloudFormationCreateOrUpdateStack.CloudFormationCreateOrUpdateStack@1   
       timeout-minutes: 15
        
