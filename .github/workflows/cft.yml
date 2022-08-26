@@ -20,7 +20,7 @@ on:
         - cert
         - prod
       region:
-        description: The region to deploy ArgoCD to
+        description: The region to deploy ECR to
         required: true
         default: us-west-2
 
@@ -37,7 +37,7 @@ jobs:
       uses: aws-actions/aws-cloudformation-github-deploy@v1  
       with:
        template: resource.yml
-       parameter-overrides: env_params/${{inputs.environment}}.yml
+       path: env_params/${{inputs.environment}}.yml
     - run: aws cloudformation create-stack --stack-name CFT --template-body file://./resource.yml --parameters ${{inputs.environment}}.yml
 #     - run: AmazonWebServices.aws-vsts-tools.CloudFormationCreateOrUpdateStack.CloudFormationCreateOrUpdateStack@1   
       
