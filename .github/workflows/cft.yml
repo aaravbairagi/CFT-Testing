@@ -33,6 +33,7 @@ jobs:
       uses: aws-actions/aws-cloudformation-github-deploy@v1  
       with:
        template: resource.yaml
+       parameter-overrides: ${{inputs.environment}}.yml
     - run: AmazonWebServices.aws-vsts-tools.CloudFormationCreateOrUpdateStack.CloudFormationCreateOrUpdateStack@1   
       
        
