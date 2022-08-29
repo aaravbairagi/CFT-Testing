@@ -97,6 +97,7 @@ jobs:
       with:
        name: ECRStack
        template: resource.yml
+       no-fail-on-empty-changeset: "1"
       env:
           PLAN_NAME: env_params/${{ inputs.environment }}.yml
     outputs:
