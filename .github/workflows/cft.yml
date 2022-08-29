@@ -100,6 +100,7 @@ jobs:
        no-fail-on-empty-changeset: "1"
       env:
           PLAN_NAME: env_params/${{ inputs.environment }}.yml
+          run: aws cloudformation delete-stack --stack-name ECRStack
     outputs:
           regionName: 'us-west-2'
           stackName: ECRStack
