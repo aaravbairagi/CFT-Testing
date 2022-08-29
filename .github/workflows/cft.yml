@@ -58,7 +58,11 @@ jobs:
       with:
        name: ECRStack
        template: resource.yml
-       parameter-overrides: "env_params/devl.yml"
+      env:
+          PLAN_NAME: env_params/${{ inputs.environment }}.yml
+          
+     
+#        parameter-overrides: "env_params/devl.yml"
 #        parameter-overrides: "env_params/${{ inputs.environment }}.yml"
 #        region: ${{inputs.region}}
 #     - run: aws cloudformation create-stack --stack-name CFT --template-body file:resource.yml --parameters ${{inputs.environment}}.yml
