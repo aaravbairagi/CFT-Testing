@@ -77,6 +77,12 @@ jobs:
     - name: Code Checkout
       uses: actions/checkout@v3
       
+    - name: AWS CLI
+      id: install-aws-cli
+      uses: unfor19/install-aws-cli-action@master
+    - run: aws --version
+      shell: bash
+      
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
