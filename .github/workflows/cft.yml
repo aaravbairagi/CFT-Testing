@@ -44,7 +44,7 @@ jobs:
         role-to-assume: arn:aws:iam::847370586410:role/JD-AppModernization-SME-Role
         role-session-name: GitHubActions
         role-skip-session-tagging: true
-        aws-region: us-east-2  
+        aws-region: us-west-2  
 
 #     - name: Configure AWS Credentials
 #       uses: aws-actions/configure-aws-credentials@v1
