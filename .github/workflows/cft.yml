@@ -1,4 +1,3 @@
-# This is a basic workflow to help you get started with Actions
 
 name: 'CFT'
 on:
@@ -46,27 +45,14 @@ jobs:
         role-duration-seconds: 1200
         role-skip-session-tagging: true
         aws-region: us-west-2
-
-#     - name: Configure AWS Credentials
-#       uses: aws-actions/configure-aws-credentials@v1
-#       with:
-#         role-to-assume: arn:aws:iam::847370586410:role/JD-AppModernization-SME-Role
-#         aws-region: us-east-2
-        
+      
     - name: 'Create/Update Stack: ECRStack'
       uses: aws-actions/aws-cloudformation-github-deploy@v1  
       with:
        name: ECRStack
        template: resource.yml
       env:
-          PLAN_NAME: env_params/${{ inputs.environment }}.yml
-          
-     
-#        parameter-overrides: "env_params/devl.yml"
-#        parameter-overrides: "env_params/${{ inputs.environment }}.yml"
-#        region: ${{inputs.region}}
-#     - run: aws cloudformation create-stack --stack-name CFT --template-body file:resource.yml --parameters ${{inputs.environment}}.yml
-#     - run: AmazonWebServices.aws-vsts-tools.CloudFormationCreateOrUpdateStack.CloudFormationCreateOrUpdateStack@1   
+          PLAN_NAME: env_params/${{ inputs.environment }}.yml 
       timeout-minutes: 15
        
   DeleteStack:
