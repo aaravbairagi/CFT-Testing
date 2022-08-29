@@ -81,7 +81,7 @@ jobs:
       uses: aws-actions/aws-cloudformation-github-deploy@v1
       with:
        name: ECRStack
-       template: resource.yaml
+       template: resource.yml
       env:
           PLAN_NAME: env_params/${{ inputs.environment }}.yml
     outputs:
