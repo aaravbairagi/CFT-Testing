@@ -77,6 +77,15 @@ jobs:
     - name: Code Checkout
       uses: actions/checkout@v3
       
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        role-to-assume: arn:aws:iam::847370586410:role/JD-AppModernization-SME-Role
+        role-session-name: GitHubActions
+        role-duration-seconds: 1200
+        role-skip-session-tagging: true
+        aws-region: us-west-2
+      
     - name: 'Delete Stack: ECRStack'
       uses: aws-actions/aws-cloudformation-github-deploy@v1
       with:
