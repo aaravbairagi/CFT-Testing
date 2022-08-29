@@ -56,7 +56,7 @@ jobs:
     - name: 'Create/Update Stack: ECRStack'
       uses: aws-actions/aws-cloudformation-github-deploy@v1  
       with:
-       name: ECRStack
+       stackName: ECRStack
        template: resource.yml
       env:
           PLAN_NAME: env_params/${{ inputs.environment }}.yml
@@ -92,7 +92,7 @@ jobs:
         role-skip-session-tagging: true
         aws-region: us-west-2
       
-    - run: aws cloudformation delete-stack --stack-name ECRStack
+    - run: aws cloudformation delete-stack --stack-name ${{stackName}}
       shell: bash
       
 #     - name: 'Delete Stack: ECRStack'
