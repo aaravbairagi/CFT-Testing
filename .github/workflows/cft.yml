@@ -24,6 +24,7 @@ on:
         default: us-west-2
       name:
         type: string
+        description: Enter Stackname
 
 
 jobs:
@@ -52,7 +53,7 @@ jobs:
     - name: 'Create/Update Stack: ECRStack'
       uses: aws-actions/aws-cloudformation-github-deploy@v1  
       with:
-       name: ${{ inputs.resource }}
+       name: ${{ inputs.name }}
        template: resource.yml
       env:
           PLAN_NAME: env_params/${{ inputs.environment }}.yml 
@@ -81,7 +82,7 @@ jobs:
         role-skip-session-tagging: true
         aws-region: us-west-2
       
-    - run: aws cloudformation delete-stack --stack-name ECRStack
+    - run: aws cloudformation delete-stack --stack-name ${{ inputs.name }}
       shell: bash
       
 #     - name: 'Delete Stack: ECRStack'
@@ -95,7 +96,7 @@ jobs:
 #           run: aws cloudformation delete-stack --stack-name ECRStack
     outputs:
           regionName: 'us-west-2'
-          stackName: ECRStack
+          stackName: ${{ inputs.name }}
 
 
 
