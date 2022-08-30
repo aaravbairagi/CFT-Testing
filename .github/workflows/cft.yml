@@ -18,6 +18,18 @@ on:
         - qual
         - cert
         - prod
+      resource:
+        type: choice
+        description: Choose your resource
+        options: 
+        - ECR
+        - EC2
+        - EFS
+        - KMS
+        - RDS
+        - S3
+        - SNS
+        
       region:
         description: The region to deploy ECR to
 #         required: true
@@ -56,7 +68,7 @@ jobs:
        name: ${{ inputs.name }}
        template: resource.yml
       env:
-          PLAN_NAME: env_params/${{ inputs.environment }}.yml 
+          PLAN_NAME: ${{inputs.resource}}/env_params/${{ inputs.environment }}.yml 
       timeout-minutes: 15
        
   DeleteStack:
