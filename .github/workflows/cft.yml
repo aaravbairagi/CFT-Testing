@@ -68,7 +68,7 @@ jobs:
        name: ${{ inputs.name }}
        template: ${{ inputs.resource }}/resource.yml
       env:
-          PLAN_NAME: ${{ inputs.resource }}/env_params/${{ inputs.environment }}.yml
+          PLAN_NAME: SNS/env_params/devl.yml
       timeout-minutes: 15
        
   DeleteStack:
