@@ -66,7 +66,7 @@ jobs:
       uses: aws-actions/aws-cloudformation-github-deploy@v1  
       with:
        name: ${{ inputs.name }}
-       template: resource.yml
+       template: ${{inputs.resource}}/resource.yml
       env:
           PLAN_NAME: ${{inputs.resource}}/env_params/${{ inputs.environment }}.yml 
       timeout-minutes: 15
@@ -101,10 +101,10 @@ jobs:
 #       uses: aws-actions/aws-cloudformation-github-deploy@v1
 #       with:
 #        name: ECRStack
-#        template: resource.yml
+#        template: ${{inputs.resource}}resource.yml
 #        no-fail-on-empty-changeset: "1"
 #       env:
-#           PLAN_NAME: env_params/${{ inputs.environment }}.yml
+#           PLAN_NAME: ${{inputs.resource}}/env_params/${{ inputs.environment }}.yml
 #           run: aws cloudformation delete-stack --stack-name ECRStack
     outputs:
           regionName: 'us-west-2'
