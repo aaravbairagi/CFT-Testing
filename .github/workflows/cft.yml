@@ -66,9 +66,9 @@ jobs:
       uses: aws-actions/aws-cloudformation-github-deploy@v1  
       with:
        name: ${{ inputs.name }}
-       template: ${{inputs.resource}}/resource.yml
+       template: ${{ inputs.resource }}/resource.yml
       env:
-          PLAN_NAME: ${{inputs.resource}}/env_params/${{ inputs.environment }}.yml 
+          PLAN_NAME: ${{ inputs.resource }}/env_params/${{ inputs.environment }}.yml
       timeout-minutes: 15
        
   DeleteStack:
