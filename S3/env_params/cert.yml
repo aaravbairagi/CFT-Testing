@@ -1,5 +1,5 @@
 - ParameterKey: BucketName
-  ParameterValue: "s3bucket0107"
+  ParameterValue: "s3bucket0107-cert"
 
 - ParameterKey: AccessControl
   ParameterValue: "Private"

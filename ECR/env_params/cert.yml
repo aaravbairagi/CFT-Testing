@@ -1,5 +1,5 @@
 - ParameterKey: RepositoryName
-  ParameterValue: "app_modernization_ecr"
+  ParameterValue: "app_modernization_ecr_cert"
 
 - ParameterKey: ImageTagMutability
   ParameterValue: IMMUTABLE
