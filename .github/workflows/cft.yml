@@ -66,28 +66,19 @@ jobs:
         role-skip-session-tagging: true
         aws-region: us-west-2
     
-
-#     - name: 'print github workspace'
-#       uses: actions/github-script@v6
-#       with:
-#          script: return "Hello!"
-#          result-encoding: string
-#     - name: Get result
-#       run: echo "${{ github.workspace }}"
-
     - name: 'Create/Update Stack'
       uses: aws-actions/aws-cloudformation-github-deploy@v1  
       with:
        name: ${{ inputs.name }}
        template: ${{input.resource}}/resource.yml
        parameter-overrides: ${{input.resource}}/env_params/${{input.environment}}.json
+      timeout-minutes: 15
 
 #       env:
 #        PLAN_NAME: ${{inputs.resource}}/env_params/${{inputs.environment}}.yml
 
 #        parameter-overrides: "TopicName=AppModernizationSNS, EndPoint=aarav.bairagi@yash.com, DisplayName=AppModernizationSNS Notification, Name=AppModernizationSNS, component=JD-SME"
 #        PLAN_NAME: env_params/${{ inputs.environment }}.yml       
-      timeout-minutes: 15
        
   DeleteStack:
     if: ${{ inputs.choice == 'DeleteStack' }}
