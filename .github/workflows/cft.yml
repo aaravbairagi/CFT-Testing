@@ -68,7 +68,7 @@ jobs:
        name: ${{ inputs.name }}
        template: ${{ inputs.resource }}/resource.yml
       env:
-       PLAN_NAME: ${{inputs.resource}}/env_params/${{ inputs.environment }}.json
+       PLAN_NAME: file://${{inputs.resource}}/env_params/${{ inputs.environment }}.json
 #       env:
 #         parameter-overrides: ${{GITHUB_WORKSPACE}}/${{input.resource}}/env_params/${{input.environment}}.json
       timeout-minutes: 15
