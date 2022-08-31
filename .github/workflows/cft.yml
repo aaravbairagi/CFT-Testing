@@ -64,13 +64,20 @@ jobs:
         role-duration-seconds: 1200
         role-skip-session-tagging: true
         aws-region: us-west-2
+    
 
-    - name: 'Create/Update Stack'
-      uses: aws-actions/aws-cloudformation-github-deploy@v1  
+    - name: 'print github workspace'
+      uses: actions/github-script@v6
       with:
-       name: ${{ inputs.name }}
-       template: ${{inputs.resource}}/resource.yml
-       parameter-overrides: file://file://${{ github.workspace }}/${{input.resource}}/env_params/${{input.environment}}.json
+        run: echo ${{ github.workspace }}
+
+#     - name: 'Create/Update Stack'
+#       uses: aws-actions/aws-cloudformation-github-deploy@v1  
+#       with:
+#        name: ${{ inputs.name }}
+#        template: ${{inputs.resource}}/resource.yml
+       
+#        parameter-overrides: file://file://${{ github.workspace }}/${{input.resource}}/env_params/${{input.environment}}.json
 
 #       env:
 #        PLAN_NAME: ${{inputs.resource}}/env_params/${{inputs.environment}}.yml
