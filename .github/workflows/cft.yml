@@ -61,14 +61,16 @@ jobs:
         role-duration-seconds: 1200
         role-skip-session-tagging: true
         aws-region: us-west-2
-      
-    - name: 'Create/Update Stack: ECRStack'
+    - name: Change Dir
+      run: cd ${{inputs.resource}}
+    - name: 'Create/Update Stack'
       uses: aws-actions/aws-cloudformation-github-deploy@v1  
       with:
        name: ${{ inputs.name }}
-       template: ${{ inputs.resource }}/resource.yml
+       template: resource.yml
+#        template: ${{ inputs.resource }}/resource.yml
       env:
-          PLAN_NAME: ${{inputs.resource}}/env_params/${{ inputs.environment }}.yml       
+          PLAN_NAME: env_params/${{ inputs.environment }}.yml       
 #        parameter-overrides: "TopicName=AppModernizationSNS, EndPoint=aarav.bairagi@yash.com, DisplayName=AppModernizationSNS Notification, Name=AppModernizationSNS, component=JD-SME"
 
 #        PLAN_NAME: file://file://${{inputs.resource}}/env_params/${{inputs.environment}}.json
