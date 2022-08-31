@@ -66,26 +66,16 @@ jobs:
         role-skip-session-tagging: true
         aws-region: us-west-2
     
-  dump_contexts_to_log:
-    name: Context testing
-    runs-on: self-hosted
-    steps:
-      - name: Dump GitHub context
-        id: github_context_step
-        run: echo '${{ toJSON(github) }}'
-        
-      - name: Test
-        run: echo '${{ GITHUB_WORKSPACE }}'
-        
+       
       
-      - name: 'Create/Update Stack'
-        uses: aws-actions/aws-cloudformation-github-deploy@v1  
-        with:
+    - name: 'Create/Update Stack'
+      uses: aws-actions/aws-cloudformation-github-deploy@v1  
+      with:
          name: ${{ inputs.name }}
          template: ${{input.resource}}/resource.yml
-        env:
-         PLAN_NAME: ${{inputs.resource}}/env_params/${{inputs.environment}}.yml
-        timeout-minutes: 15
+         parameter-overrides: file://${{ GITHUB_WORKSPACE }}/${{input.resource}}/env_params/${{input.environment}}.json
+
+      timeout-minutes: 15
 
 #          parameter-overrides: ${{input.resource}}/env_params/${{input.environment}}.json
 
