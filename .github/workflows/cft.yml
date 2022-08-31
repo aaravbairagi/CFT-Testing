@@ -68,7 +68,9 @@ jobs:
        name: ${{ inputs.name }}
        template: ${{ inputs.resource }}/resource.yml
       env:
-        parameter-overrides: ${{GITHUB_WORKSPACE}}/${{input.resource}}/env_params/${{input.environment}}.json
+       PLAN_NAME: ${{inputs.resource}}/env_params/${{ inputs.environment }}.yml
+#       env:
+#         parameter-overrides: ${{GITHUB_WORKSPACE}}/${{input.resource}}/env_params/${{input.environment}}.json
       timeout-minutes: 15
        
   DeleteStack:
