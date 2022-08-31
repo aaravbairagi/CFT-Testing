@@ -79,8 +79,8 @@ jobs:
       uses: aws-actions/aws-cloudformation-github-deploy@v1  
       with:
        name: ${{ inputs.name }}
-       template: ./resource.yml
-       parameter-overrides: ./${{input.resource}}/env_params/${{input.environment}}.json
+       template: ${{input.resource}}/resource.yml
+       parameter-overrides: ${{input.resource}}/env_params/${{input.environment}}.json
 
 #       env:
 #        PLAN_NAME: ${{inputs.resource}}/env_params/${{inputs.environment}}.yml
