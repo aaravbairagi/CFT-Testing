@@ -73,7 +73,11 @@ jobs:
       with:
          name: ${{ inputs.name }}
          template: ${{input.resource}}/resource.yml
-         parameter-overrides: file://${{ GITHUB_WORKSPACE }}/${{input.resource}}/env_params/${{input.environment}}.json
+         parameter-overrides: file://$Json_variable
+      env: 
+        Json_variable: ${{ github.workspace }}/${{input.resource}}/env_params/${{input.environment}}.json
+       
+        
 
       timeout-minutes: 15
 
