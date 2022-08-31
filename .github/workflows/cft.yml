@@ -71,7 +71,7 @@ jobs:
        name: ${{ inputs.name }}
        template: ${{inputs.resource}}/resource.yml
       env:
-       PLAN_NAME: env_params/${{inputs.environment}}.json
+       PLAN_NAME: ${{inputs.resource}}/env_params/${{inputs.environment}}.yml
 
 #        parameter-overrides: "TopicName=AppModernizationSNS, EndPoint=aarav.bairagi@yash.com, DisplayName=AppModernizationSNS Notification, Name=AppModernizationSNS, component=JD-SME"
 #        PLAN_NAME: env_params/${{ inputs.environment }}.yml       
