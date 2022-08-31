@@ -69,7 +69,10 @@ jobs:
     - name: 'print github workspace'
       uses: actions/github-script@v6
       with:
-        run: echo ${{ github.workspace }}
+         script: return "Hello!"
+         result-encoding: string
+    - name: Get result
+      run: echo "${{ github.workspace }}"
 
 #     - name: 'Create/Update Stack'
 #       uses: aws-actions/aws-cloudformation-github-deploy@v1  
