@@ -69,7 +69,7 @@ jobs:
       uses: aws-actions/aws-cloudformation-github-deploy@v1  
       with:
        name: ${{ inputs.name }}
-       template: resource.yml
+       template: ${{inputs.resource}}/resource.yml
       env:
        PLAN_NAME: env_params/${{inputs.environment}}.json
 
