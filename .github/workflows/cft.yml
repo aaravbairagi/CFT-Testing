@@ -66,11 +66,11 @@ jobs:
       uses: aws-actions/aws-cloudformation-github-deploy@v1  
       with:
        name: ${{ inputs.name }}
-       run: cd /${{inputs.resource}}
        template: ${{ inputs.resource }}/resource.yml
+       run: cd /${{inputs.resource}}/env_params
 #        parameter-overrides: "TopicName=AppModernizationSNS, EndPoint=aarav.bairagi@yash.com, DisplayName=AppModernizationSNS Notification, Name=AppModernizationSNS, component=JD-SME"
       env:
-       PLAN_NAME: /env_params/${{inputs.environment}}.yml
+         PLAN_NAME: ${{ inputs.environment }}.yml
 #        PLAN_NAME: file://file://${{inputs.resource}}/env_params/${{inputs.environment}}.json
 #       env:
 #         parameter-overrides: ${{GITHUB_WORKSPACE}}/${{input.resource}}/env_params/${{input.environment}}.json
