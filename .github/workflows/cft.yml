@@ -69,7 +69,7 @@ jobs:
        
       
     - name: 'Create/Update Stack'
-      uses: aws-actions/aws-cloudformation-github-deploy@v1  
+      uses: aws-actions/aws-cloudformation-github-deploy@v1.0.4
       with:
          name: ${{ inputs.name }}
          template: ${{input.resource}}/resource.yml
