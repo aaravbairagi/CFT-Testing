@@ -67,10 +67,10 @@ jobs:
       with:
        name: ${{ inputs.name }}
        template: ${{ inputs.resource }}/resource.yml
-       run: cd /${{inputs.resource}}/env_params
-#        parameter-overrides: "TopicName=AppModernizationSNS, EndPoint=aarav.bairagi@yash.com, DisplayName=AppModernizationSNS Notification, Name=AppModernizationSNS, component=JD-SME"
       env:
-         PLAN_NAME: ${{ inputs.environment }}.yml
+          PLAN_NAME: ${{inputs.resource}}/env_params/${{ inputs.environment }}.yml       
+#        parameter-overrides: "TopicName=AppModernizationSNS, EndPoint=aarav.bairagi@yash.com, DisplayName=AppModernizationSNS Notification, Name=AppModernizationSNS, component=JD-SME"
+
 #        PLAN_NAME: file://file://${{inputs.resource}}/env_params/${{inputs.environment}}.json
 #       env:
 #         parameter-overrides: ${{GITHUB_WORKSPACE}}/${{input.resource}}/env_params/${{input.environment}}.json
