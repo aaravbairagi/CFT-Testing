@@ -80,7 +80,7 @@ jobs:
       with:
        name: ${{ inputs.name }}
        template: ./resource.yml
-       parameter-overrides: file://${{ github.workspace }}/${{input.resource}}/env_params/${{input.environment}}.json
+       parameter-overrides: ./${{input.resource}}/env_params/${{input.environment}}.json
 
 #       env:
 #        PLAN_NAME: ${{inputs.resource}}/env_params/${{inputs.environment}}.yml
