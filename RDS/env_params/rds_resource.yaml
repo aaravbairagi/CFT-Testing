@@ -1,0 +1,154 @@
+Parameters:
+  VPC:
+    Type: String
+    Description: The VPC identity
+#    Default: vpc-04591a132d503a392
+  
+  SubnetA:
+    Type: String
+    Description: The subnet where to launch the service
+#    Default: subnet-0ceced365acff32e9
+  
+  SubnetB:
+    Type: String
+    Description: The subnet where to Launch the service
+#    Default: subnet-068d76d0a8ce7aaa2
+  
+  RDSSecurityGroup:
+    Type: String
+    Description: Security group for mount target
+#    Default: sg-001a06a7ba5ed16d7
+
+Resources:
+
+  SubnetGroup:
+    Type: "AWS::RDS::DBSubnetGroup"
+    Properties:
+      DBSubnetGroupName: "rdssubnetgroup"
+      DBSubnetGroupDescription: "Subnet Group"
+      SubnetIds:
+      - !Ref SubnetA
+      - !Ref SubnetB
+
+
+  RDSCluster:
+    Type: "AWS::RDS::DBCluster"
+    Properties:
+      DBSubnetGroupName: !Ref SubnetGroup
+#      MasterUsername: !Ref "DBUsername"
+      MasterUsername: "testingrdsadmin"
+#      MasterUserPassword: !Ref "DBPassword"
+      MasterUserPassword: "Year8770111851"
+      DatabaseName: "products"
+      Engine: "aurora"
+      EngineMode: "serverless"
+      VpcSecurityGroupIds:
+      - !Ref RDSSecurityGroup
+      ScalingConfiguration:
+        AutoPause: true
+        MaxCapacity: 16
+        MinCapacity: 2
+        SecondsUntilAutoPause: 300
+
+  DatabaseCPUUtilizationTooHighAlarm:
+    Type: 'AWS::CloudWatch::Alarm'
+    Properties:
+      AlarmDescription: 'Average database CPU utilization over last 10 minutes too high.'
+      ComparisonOperator: GreaterThanThreshold
+      EvaluationPeriods: 1
+      MetricName: CPUUtilization
+      Namespace: 'AWS/RDS'
+      Period: 600
+      Statistic: Average
+      Threshold: 80
+
+  DatabaseCPUCreditBalanceTooLowAlarm:
+    Type: 'AWS::CloudWatch::Alarm'
+    Properties:
+      AlarmDescription: 'Average database CPU credit balance over last 10 minutes too low, expect a significant performance drop soon.'
+      ComparisonOperator: LessThanThreshold
+      EvaluationPeriods: 1
+      MetricName: CPUCreditBalance
+      Namespace: 'AWS/RDS'
+      Period: 600
+      Statistic: Average
+      Threshold: 20
+
+  MySecretA:
+    Type: 'AWS::SecretsManager::Secret'
+    Properties:
+      Name: MySecretForAppA
+      Description: "This secret has a dynamically generated secret password."
+      GenerateSecretString:
+        SecretStringTemplate: '{"username": "test-user"}'
+        GenerateStringKey: "password"
+        PasswordLength: 30
+        ExcludeCharacters: '"@/\'
+      Tags:
+        -
+          Key: AppName
+          Value: AppA
+  
+
+  #MyRDSInstanceRotationSecret:
+  #  Type: AWS::SecretsManager::Secret
+  #  Properties:
+  #    GenerateSecretString:
+  #      SecretStringTemplate: '{"username": "admin"}'
+  #      GenerateStringKey: password
+  #      PasswordLength: 16
+  #      ExcludeCharacters: "\"@/\\"
+  #    Tags:
+  #    - Key: AppName
+  #      Value: AppA
+
+  SecretRDSInstanceAttachment:
+    Type: AWS::SecretsManager::SecretTargetAttachment
+    Properties:
+        SecretId: !Ref MySecretA
+        TargetId: !Ref RDSCluster
+        TargetType: AWS::RDS::DBCluster
+  MySecretRotationSchedule:
+    Type: AWS::SecretsManager::RotationSchedule
+    DependsOn: SecretRDSInstanceAttachment
+    Properties:
+        SecretId: !Ref MySecretA
+        RotationLambdaARN: 'arn:aws:lambda:us-west-2:410533792414:function:nhihoga'
+        RotationRules:
+            #AutomaticallyAfterDays: 2
+            ScheduleExpression: 'cron(* * * * *)'
+  #MySecretRotationSchedule:
+  #  Type: AWS::SecretsManager::RotationSchedule
+  #  DependsOn: SecretRDSInstanceAttachment
+  #  Properties:
+  #    SecretId:
+  #      Ref: MySecretA
+  #    HostedRotationLambda: 
+  #      RotationType: MySQLSingleUser
+  #      RotationLambdaName: nhihoga
+  #      VpcSecurityGroupIds:
+  #        - Ref: VPC
+  #        - Ref: RDSSecurityGroup
+  #      VpcSubnetIds:
+  #        Fn::Join:
+  #        - ","
+  #        - - Ref: SubnetA
+  #          - Ref: SubnetB
+  #    RotationRules:
+  #      Duration: 2h
+  #      ScheduleExpression: 'cron(0 8 1 * ? *)'
+
+  #MySecretRotationSchedule:
+  #Type: Dev::SecretsManager::RotationSchedule
+  #DependsOn: SecretRDSInstanceAttachment
+  #Properties:
+  #  SecretId: !Ref MySecretA
+  #  RotationLambdaARN: 'arn:aws:lambda:us-west-2:410533792414:function:nhihoga'
+  #  RotationRules:
+  #    Duration: 2h
+  #    ScheduleExpression: 'cron(0 1 * * ? *)'
+  #
+Outputs:
+  VpcId:
+    Description: The VPC ID
+    Value: !Ref VPC

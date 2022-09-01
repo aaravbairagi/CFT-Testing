@@ -1,0 +1,485 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  ClusterName:
+    Type: String
+    Description: Name of the cluster
+  Name1:
+    Type: String
+    Description: Name of the ECS resource1
+  Name2:
+    Type: String
+    Description: Name of the ECS resource2
+  Name3:
+    Type: String
+    Description: Name of the ECS resource3
+   
+  component:
+    Type: String
+    Description: Tag used for cost tracking and billing
+  
+
+
+  ContainerDefinitionsMountPointsContainerPath:
+    Type: String
+    Description: Name of the ECS resource1
+  ContainerDefinitionsMountPointsSourceVolume:
+    Type: String
+    Description: Name of the ECS resource1
+  ContainerDefinitionsImage:
+    Type: String
+    Description: Name of the ECS resource1
+  LogConfigurationLogDriver:
+    Type: String
+    Description: Name of the ECS resource1
+  LogConfigurationOptionsawslogsregion:
+    Type: String
+    Description: Name of the ECS resource1
+  LogConfigurationOptionsawslogsstreamprefix:
+    Type: String
+    Description: Name of the ECS resource1
+  ContainerDefinitionsPortMappingsContainerPort:
+    Type: String
+    Description: Name of the ECS resource1
+  ContainerDefinitionsPortMappingsProtocol:
+    Type: String
+    Description: Name of the ECS resource1
+  ContainerDefinitionsPortMappingsHostPort:
+    Type: String
+    Description: Name of the ECS resource1
+  Cpu:
+    Type: String
+    Description: CPU configuration
+  ExecutionRoleArn:
+    Type: String
+    Description: Specifies the type of KMS key to create
+  Family:
+    Type: String
+    Description: Determines the cryptographic operations for which you can use the KMS key
+  Memory:
+    Type: String
+    Description: Creates a multi-Region primary key
+  NetworkMode:
+    Type: String
+    Description: Creates a multi-Region primary key
+  RequiresCompatibilities:
+    Type: String
+    Description: Creates a multi-Region primary key
+  TaskRoleArn:
+    Type: String
+    Description: Creates a multi-Region primary key
+  FilesystemId:
+    Type: String
+    Description: Tag used for cost tracking and billing  
+  VolumesName:
+    Type: String
+    Description: Creates a multi-Region primary key
+  VolumesEFSVolumeConfigurationRootDirectory:
+    Type: String
+    Description: Creates a multi-Region primary key
+  VolumesEFSVolumeConfigurationTransitEncryption:
+    Type: String
+    Description: Creates a multi-Region primary key
+  VolumesEFSVolumeConfigurationAuthorizationConfigIAM:
+    Type: String
+    Description: Creates a multi-Region primary key
+  
+  DeploymentConfigurationMaximumPercent:
+    Type: String
+    Description: Name of the ECS resource1
+  DeploymentConfigurationMinimumHealthyPercent:
+    Type: String
+    Description: Name of the ECS resource1
+  DeploymentControllerType:
+    Type: String
+    Description: Name of the ECS resource1
+  EnableECSManagedTags:
+    Type: String
+    Description: Name of the ECS resource1
+  HealthCheckGracePeriodSeconds:
+    Type: String
+    Description: Name of the ECS resource1
+  LaunchType:
+    Type: String
+    Description: Name of the ECS resource1
+  DesiredCount:
+    Type: String
+    Description: Name of the ECS resource1
+  LoadBalancersContainerName:
+    Type: String
+    Description: Name of the ECS resource1
+  LoadBalancersContainerPort:
+    Type: String
+    Description: Name of the ECS resource1
+  # NetworkConfigurationAwsvpcConfigurationAssignPublicIp:
+  #   Type: String
+  #   Description: Name of the ECS resource1
+  # NetworkConfigurationAwsvpcConfigurationSG1:
+  #   Type: String
+  #   Description: Name of the ECS resource1
+  # NetworkConfigurationAwsvpcConfigurationSG2:
+  #   Type: String
+  #   Description: Name of the ECS resource1
+  # NetworkConfigurationAwsvpcConfigurationSubnet1:
+  #   Type: String
+  #   Description: Name of the ECS resource1
+  # NetworkConfigurationAwsvpcConfigurationSubnet2:
+  #   Type: String
+  #   Description: Name of the ECS resource1
+  ServiceName:
+    Type: String
+    Description: Name of the ECS resource1
+  ELBListenerARN:
+    Type: String
+    Description: Name of the ECS resource1
+  ELBTestListenerARN:
+    Type: String
+    Description: Name of the ECS resource1
+  ELBTargetGroupTG1Name:
+    Type: String
+    Description: Name of the ECS resource1
+  ELBTargetGroupTG2Name:
+    Type: String
+    Description: Name of the ECS resource1
+  DesiredCapacity:
+    Type: Number
+    Default: '1'
+    Description: Number of instances to launch in your ECS cluster.
+  MaxSize:
+    Type: Number
+    Default: '1'
+    Description: Maximum number of instances that can be launched in your ECS cluster.
+  InstanceType:
+    Description: EC2 instance type
+    Type: String
+    Default: t2.micro
+    AllowedValues:
+      - t2.micro
+      - t2.small
+      - t2.medium
+      - t2.large
+      - m3.medium
+      - m3.large
+      - m3.xlarge
+      - m3.2xlarge
+      - m4.large
+      - m4.xlarge
+      - m4.2xlarge
+      - m4.4xlarge
+      - m4.10xlarge
+      - c4.large
+      - c4.xlarge
+      - c4.2xlarge
+      - c4.4xlarge
+      - c4.8xlarge
+      - c3.large
+      - c3.xlarge
+      - c3.2xlarge
+      - c3.4xlarge
+      - c3.8xlarge
+      - r3.large
+      - r3.xlarge
+      - r3.2xlarge
+      - r3.4xlarge
+      - r3.8xlarge
+      - i2.xlarge
+      - i2.2xlarge
+      - i2.4xlarge
+      - i2.8xlarge
+    ConstraintDescription: Please choose a valid instance type.
+
+Mappings:
+  AWSRegionToAMI:
+    us-east-1:
+      AMIID: ami-09bee01cc997a78a6
+    us-east-2:
+      AMIID: ami-0a9e12068cb98a01d
+    us-west-1:
+      AMIID: ami-0fa6c8d131a220017
+    us-west-2:
+      AMIID: ami-0c2ab3b8efb09f272
+    eu-west-1:
+      AMIID: ami-0c9ef930279337028
+    eu-central-1:
+      AMIID: ami-065c1e34da68f2b02
+    ap-northeast-1:
+      AMIID: ami-02265963d1614d04d
+    ap-southeast-1:
+      AMIID: ami-0b68661b29b9e058c
+    ap-southeast-2:
+      AMIID: ami-00e4b147599c13588
+
+Resources:
+  'ECSCluster':
+    Type: AWS::ECS::Cluster 
+    Properties:
+      ClusterName: "JD-SME-Cluster-EC2"
+      Tags:
+      - Key: component
+        Value: "JD-SME"
+      - Key: Name1
+        Value: "ECS-Fargate-ecs-cluster-devl"
+
+  EcsSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: ECS Security Group
+      VpcId: "vpc-49be512f"
+
+  EcsSecurityGroupHTTPinbound:
+    Type: 'AWS::EC2::SecurityGroupIngress'
+    Properties:
+      GroupId: !Ref EcsSecurityGroup
+      IpProtocol: tcp
+      FromPort: 80
+      ToPort: 80
+      CidrIp: 0.0.0.0/0
+
+  EcsSecurityGroupSSHinbound:
+    Type: 'AWS::EC2::SecurityGroupIngress'
+    Properties:
+      GroupId: !Ref EcsSecurityGroup
+      IpProtocol: tcp
+      FromPort: 22
+      ToPort: 22
+      CidrIp: 0.0.0.0/0
+
+  EcsSecurityGroupALBports:
+    Type: 'AWS::EC2::SecurityGroupIngress'
+    Properties:
+      GroupId: !Ref EcsSecurityGroup
+      IpProtocol: tcp
+      FromPort: 31000
+      ToPort: 61000
+      SourceSecurityGroupId: !Ref EcsSecurityGroup
+
+  'ECSTaskDefinition':
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+
+      ContainerDefinitions:
+        - Essential: true
+          MountPoints:
+          - ContainerPath: !Ref ContainerDefinitionsMountPointsContainerPath
+            SourceVolume: !Ref ContainerDefinitionsMountPointsSourceVolume
+          Image: !Ref ContainerDefinitionsImage
+          
+          LogConfiguration:
+            LogDriver: !Ref LogConfigurationLogDriver
+            Options:
+              awslogs-group: 'ecs-stack-devl-LogsLogGroupName'
+              awslogs-region: !Ref LogConfigurationOptionsawslogsregion
+              awslogs-stream-prefix: !Ref LogConfigurationOptionsawslogsstreamprefix
+          Name: 'JD-SME-App'
+          PortMappings:
+          - ContainerPort: !Ref ContainerDefinitionsPortMappingsContainerPort
+            Protocol: !Ref ContainerDefinitionsPortMappingsProtocol
+            HostPort: !Ref ContainerDefinitionsPortMappingsHostPort
+          Environment:
+          - Name: JAVA_OPTS
+            Value: 'JAVA_OPTS'
+
+      Cpu: !Ref Cpu
+      ExecutionRoleArn: !Ref ExecutionRoleArn
+      Family: !Ref Family
+      Memory: !Ref Memory
+      NetworkMode: !Ref NetworkMode
+      RequiresCompatibilities:
+      - !Ref RequiresCompatibilities
+      Tags:
+      - Key: component
+        Value: !Ref component
+      - Key: Name2
+        Value: !Ref Name2
+      TaskRoleArn: !Ref TaskRoleArn
+      Volumes:
+      - Name: shared-efs-volume
+        EFSVolumeConfiguration:
+          FilesystemId: !Ref FilesystemId
+          RootDirectory: !Ref VolumesEFSVolumeConfigurationRootDirectory
+
+  
+  'MyECSLoadBalancer':
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties: 
+      Name: ECSALB
+      Scheme: "internet-facing"
+      SecurityGroups: 
+        - "sg-06e0ccfb5baa80bd4"
+      Subnets: 
+        - "subnet-f8f129a3"
+        - "subnet-86229fad"
+        - "subnet-763b683f"
+        - "subnet-793b031e"
+      Type: "application"
+
+  'MyECSListeners':
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties: 
+      DefaultActions: 
+        - Type: "forward"
+          TargetGroupArn: !Ref MyECSTargetGroup
+      LoadBalancerArn: 
+        Ref: "MyECSLoadBalancer"
+      Port: "80"
+      Protocol: "HTTP"   
+
+  ECSALBListenerRule:
+    Type: 'AWS::ElasticLoadBalancingV2::ListenerRule'
+    DependsOn: MyECSListeners
+    Properties:
+      Actions:
+        - Type: forward
+          TargetGroupArn: !Ref MyECSTargetGroup
+      Conditions:
+        - Field: path-pattern
+          Values:
+            - /
+      ListenerArn: !Ref MyECSListeners
+      Priority: 1
+
+  'MyECSTargetGroup':
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties: 
+      HealthCheckEnabled: "true"
+      HealthCheckIntervalSeconds: "120"
+      HealthCheckPath: "/"
+      HealthCheckProtocol: "HTTP"
+      HealthCheckTimeoutSeconds: "20"
+      Name: ECSALBTargetgrp
+      Port: "80"
+      Protocol: "HTTP"
+      TargetType: "instance"
+      UnhealthyThresholdCount: "3"
+      HealthyThresholdCount: "3"
+      VpcId: "vpc-49be512f"
+
+  ECSAutoScalingGroup:
+    Type: 'AWS::AutoScaling::AutoScalingGroup'
+    Properties:
+      VPCZoneIdentifier: 
+        - "subnet-f8f129a3"
+        - "subnet-86229fad"
+        - "subnet-763b683f"
+        - "subnet-793b031e"
+      LaunchConfigurationName: !Ref ContainerInstances
+      MinSize: '1'
+      MaxSize: '4'
+      DesiredCapacity: '1'
+    CreationPolicy:
+      ResourceSignal:
+        Timeout: PT15M
+    UpdatePolicy:
+      AutoScalingReplacingUpdate:
+        WillReplace: 'true'
+
+  ContainerInstances:
+    Type: 'AWS::AutoScaling::LaunchConfiguration'
+    Properties:
+      ImageId: !FindInMap 
+        - AWSRegionToAMI
+        - !Ref 'AWS::Region'
+        - AMIID
+      SecurityGroups:
+        - !Ref EcsSecurityGroup
+      InstanceType: !Ref InstanceType
+      IamInstanceProfile: !Ref EC2InstanceProfile
+      # KeyName: "ECSKEY"
+      
+
+
+  'ECSService':
+    Type: AWS::ECS::Service
+    DependsOn: MyECSListeners
+    Properties:
+      Cluster:
+        Ref: 'ECSCluster'
+      
+      EnableECSManagedTags: false
+      LaunchType: !Ref LaunchType
+      DesiredCount: !Ref DesiredCount  # For testing purpose
+      
+      LoadBalancers:
+      - ContainerName: 'JD-SME-App'
+        ContainerPort: 8080
+        TargetGroupArn: !Ref 'MyECSTargetGroup'
+
+      
+      ServiceName: !Ref ServiceName
+      Tags:
+      - Key: component
+        Value: !Ref component
+      - Key: Name3
+        Value: !Ref Name3
+      
+      TaskDefinition:
+        Ref: 'ECSTaskDefinition'
+
+  
+
+  'ECSScalableTarget':
+    Type: AWS::ApplicationAutoScaling::ScalableTarget
+    Properties:
+      MaxCapacity: "5"
+      MinCapacity: "2"  
+      RoleARN: 
+        Fn::Sub: "arn:aws:iam::847370586410:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
+      ServiceNamespace: ecs
+      ScalableDimension: 'ecs:service:DesiredCount'
+      ResourceId: !Join 
+        - /
+        - - service
+          - !Ref ECSCluster
+          - !GetAtt ECSService.Name
+
+  'ServiceScalingPolicyALB':
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+    Properties:
+      PolicyName: alb-requests-per-target-per-minute
+      PolicyType: TargetTrackingScaling
+      ScalingTargetId: !Ref ECSScalableTarget
+      TargetTrackingScalingPolicyConfiguration:
+        TargetValue: "75"
+        ScaleInCooldown: "60"
+        ScaleOutCooldown: "30"
+        PredefinedMetricSpecification:
+          PredefinedMetricType: ALBRequestCountPerTarget
+          ResourceLabel: !Join 
+            - '/' 
+            - - !GetAtt MyECSLoadBalancer.LoadBalancerFullName
+              - !GetAtt MyECSTargetGroup.TargetGroupFullName
+
+  EC2Role:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Path: /
+      Policies:
+        - PolicyName: ecs-service
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'ecs:CreateCluster'
+                  - 'ecs:DeregisterContainerInstance'
+                  - 'ecs:DiscoverPollEndpoint'
+                  - 'ecs:Poll'
+                  - 'ecs:RegisterContainerInstance'
+                  - 'ecs:StartTelemetrySession'
+                  - 'ecs:Submit*'
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                Resource: '*'
+
+  EC2InstanceProfile:
+    Type: 'AWS::IAM::InstanceProfile'
+    Properties:
+      Path: /
+      Roles:
+        - !Ref EC2Role

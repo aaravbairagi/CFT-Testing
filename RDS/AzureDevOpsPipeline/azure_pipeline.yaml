@@ -1,0 +1,68 @@
+trigger: none
+
+parameters:
+  - name: envName
+    displayName: Environment
+    type: string
+    values:
+    - 'devl'
+    - 'qual'
+    - 'cert'
+    - 'prod'
+    - 'rds_resource'
+  - name: ResourceName
+    displayName: ResourceName
+    type: string
+    values:
+    - 'RDS'
+
+  - name: Operation
+    displayName: Operation
+    type: string
+    values:
+    - 'CreateStack'
+    - 'DeleteStack'
+
+jobs:
+- ${{ if contains(parameters.Operation, 'CreateStack') }}:
+  - job: 'CreateStack_${{ parameters.ResourceName }}'
+    condition: eq('${{ parameters.envName }}', 'rds_resource')
+    pool:
+      name: JD-SME
+    steps:
+      - task: AmazonWebServices.aws-vsts-tools.CloudFormationCreateOrUpdateStack.CloudFormationCreateOrUpdateStack@1
+        displayName: 'Create/Update Stack: RDSStack'
+        inputs:
+           regionName: 'us-west-2'
+           stackName: RDSStack
+           templateFile: Infra/CFT/RDS/env_params/rds_resource.yaml
+           templateParametersFile: Infra/CFT/RDS/env_params/prod.yaml
+        timeoutInMinutes: 15
+
+- ${{ if contains(parameters.Operation, 'DeleteStack') }}:
+  - job: 'DeleteApproval_${{ parameters.ResourceName }}'
+    condition: eq('${{ parameters.envName }}', 'rds_resource')
+    pool: server
+    steps:
+      - task: ManualValidation@0
+        displayName: 'Manual Validation'
+        inputs:
+          notifyUsers: 'anand.panwar@yash.com'
+          instructions: 'Please review Delete Stack Operation'
+        timeoutInMinutes: 15
+
+- ${{ if contains(parameters.Operation, 'DeleteStack') }}:
+  - job: 'DeleteStack_${{ parameters.ResourceName }}'
+    dependsOn: 'DeleteApproval_${{ parameters.ResourceName }}'
+    condition: eq('${{ parameters.envName }}', 'rds_resource')
+    pool:
+      name: JD-SME
+    steps:
+      - task: AmazonWebServices.aws-vsts-tools.CloudFormationDeleteStack.CloudFormationDeleteStack@1
+        displayName: 'Delete Stack: RDSStack'
+        inputs:
+           regionName: 'us-west-2'
+           stackName: RDSStack
+        timeoutInMinutes: 15
+
+

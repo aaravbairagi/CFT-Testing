@@ -1,0 +1,162 @@
+[
+    {
+      "ParameterKey": "ClusterName",
+      "ParameterValue": "JD-SME-Cluster"
+    },
+    {
+      "ParameterKey": "Name1",
+      "ParameterValue": "ECS-EC2-ecs-cluster-devl"
+    },
+    {
+      "ParameterKey": "Name2",
+      "ParameterValue": "ECS-EC2-task-definition-devl"
+    },
+    {
+      "ParameterKey": "Name3",
+      "ParameterValue": "ECS-EC2-service-devl"
+    },
+    {
+      "ParameterKey": "ContainerDefinitionsMountPointsContainerPath",
+      "ParameterValue": "/www"
+    },
+    {
+      "ParameterKey": "ContainerDefinitionsMountPointsSourceVolume",
+      "ParameterValue": "shared-efs-volume"
+    },
+    {
+      "ParameterKey": "FilesystemId",
+      "ParameterValue": "fs-0ee6458e60b439591"
+    },
+    {
+      "ParameterKey": "ContainerDefinitionsImage",
+      "ParameterValue": "847370586410.dkr.ecr.us-west-2.amazonaws.com/hello-world:latest"
+    },
+    {
+      "ParameterKey": "LogConfigurationLogDriver",
+      "ParameterValue": "awslogs"
+    },
+    {
+      "ParameterKey": "LogConfigurationOptionsawslogsregion",
+      "ParameterValue": "us-west-2"
+    },
+    {
+      "ParameterKey": "LogConfigurationOptionsawslogsstreamprefix",
+      "ParameterValue": "cluster-stream"
+    },
+    {
+      "ParameterKey": "ContainerDefinitionsPortMappingsContainerPort",
+      "ParameterValue": "8080"
+    },
+    {
+      "ParameterKey": "ContainerDefinitionsPortMappingsProtocol",
+      "ParameterValue": "tcp"
+    },
+    {
+      "ParameterKey": "ContainerDefinitionsPortMappingsHostPort",
+      "ParameterValue": "8080"
+    },
+    {
+      "ParameterKey": "Cpu",
+      "ParameterValue": "256"
+    },
+    {
+      "ParameterKey": "ExecutionRoleArn",
+      "ParameterValue": "arn:aws:iam::847370586410:role/ecsTaskExecutionRole"
+    },
+    {
+      "ParameterKey": "Family",
+      "ParameterValue": "task-devl"
+    },
+    {
+      "ParameterKey": "Memory",
+      "ParameterValue": "512"
+    },
+    {
+      "ParameterKey": "component",
+      "ParameterValue": "JD-SME"
+    },
+    {
+      "ParameterKey": "NetworkMode",
+      "ParameterValue": "host"
+    },
+    {
+      "ParameterKey": "RequiresCompatibilities",
+      "ParameterValue": "EC2"
+    },
+    {
+      "ParameterKey": "TaskRoleArn",
+      "ParameterValue": "arn:aws:iam::847370586410:role/ecsTaskExecutionRole"
+    },
+    {
+      "ParameterKey": "VolumesName",
+      "ParameterValue": "shared-efs-volume"
+    },
+    {
+      "ParameterKey": "VolumesEFSVolumeConfigurationRootDirectory",
+      "ParameterValue": "/"
+    },
+    {
+      "ParameterKey": "VolumesEFSVolumeConfigurationTransitEncryption",
+      "ParameterValue": "ENABLED"
+    },
+    {
+      "ParameterKey": "VolumesEFSVolumeConfigurationAuthorizationConfigIAM",
+      "ParameterValue": "DISABLED"
+    },
+    {
+      "ParameterKey": "DeploymentConfigurationMaximumPercent",
+      "ParameterValue": "200"
+    },
+    {
+      "ParameterKey": "DeploymentConfigurationMinimumHealthyPercent",
+      "ParameterValue": "100"
+    },
+    {
+      "ParameterKey": "DeploymentControllerType",
+      "ParameterValue": "CODE_DEPLOY"
+    },
+    {
+      "ParameterKey": "EnableECSManagedTags",
+      "ParameterValue": "false"
+    },
+    {
+      "ParameterKey": "HealthCheckGracePeriodSeconds",
+      "ParameterValue": "300"
+    },
+    {
+      "ParameterKey": "LaunchType",
+      "ParameterValue": "EC2"
+    },
+    {
+      "ParameterKey": "DesiredCount",
+      "ParameterValue": "2"
+    },
+    {
+      "ParameterKey": "LoadBalancersContainerName",
+      "ParameterValue": "app"
+    },
+    {
+      "ParameterKey": "LoadBalancersContainerPort",
+      "ParameterValue": "8080"
+    },
+    {
+      "ParameterKey": "ServiceName",
+      "ParameterValue": "ECS-Service"
+    },
+    {
+      "ParameterKey": "ELBListenerARN",
+      "ParameterValue": "ElasticLoadBalancingV2ListenerARN"
+    },
+    {
+      "ParameterKey": "ELBTestListenerARN",
+      "ParameterValue": "ElasticLoadBalancingV2TestListenerARN"
+    },
+    {
+      "ParameterKey": "ELBTargetGroupTG1Name",
+      "ParameterValue": "ElasticLoadBalancingV2TargetGroup1ARN"
+    },
+    {
+      "ParameterKey": "ELBTargetGroupTG2Name",
+      "ParameterValue": "ElasticLoadBalancingV2TargetGroup2ARN"
+    }
+  ]

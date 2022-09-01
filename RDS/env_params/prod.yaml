@@ -1,0 +1,11 @@
+- ParameterKey: VPC
+  ParameterValue: appModVPC
+
+- ParameterKey: SubnetA
+  ParameterValue: subnet-763b683f
+
+- ParameterKey: SubnetB
+  ParameterValue: subnet-793b031e
+
+- ParameterKey: RDSSecurityGroup
+  ParameterValue: sg-0eccb42b821308973

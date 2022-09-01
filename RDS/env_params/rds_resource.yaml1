@@ -1,0 +1,96 @@
+
+Parameters:
+  VPC:
+    Type: String
+    Description: The VPC identity
+    Default: vpc-49be512f
+
+  SubnetA:
+    Type: String
+    Description: The subnet where to launch the service
+    Default: subnet-763b683f
+
+  SubnetB:
+    Type: String
+    Description: The subnet where to Launch the service
+    Default: subnet-793b031e
+
+  RDSSecurityGroup:
+    Type: String
+    Description: Security group for mount target
+#    Default: sg-0eccb42b821308973
+    
+Resources:
+
+  SubnetGroup:
+    Type: "AWS::RDS::DBSubnetGroup"
+    Properties:
+      DBSubnetGroupName: "rdssubnetgroup"
+      DBSubnetGroupDescription: "Subnet Group"
+      SubnetIds:
+      - !Ref SubnetA
+      - !Ref SubnetB
+
+
+  RDSCluster:
+    Type: "AWS::RDS::DBCluster"
+    Properties:
+      DBSubnetGroupName: !Ref SubnetGroup
+#      MasterUsername: !Ref "DBUsername"
+      MasterUsername: "testingrdsadmin"
+#      MasterUserPassword: !Ref "DBPassword"
+      MasterUserPassword: "Year8770111851"
+      DatabaseName: "products"
+      Engine: "aurora"
+      EngineMode: "serverless"
+      VpcSecurityGroupIds:
+      - !Ref RDSSecurityGroup
+      ScalingConfiguration:
+        AutoPause: true
+        MaxCapacity: 16
+        MinCapacity: 2
+        SecondsUntilAutoPause: 300
+
+  DatabaseCPUUtilizationTooHighAlarm:
+    Type: 'AWS::CloudWatch::Alarm'
+    Properties:
+      AlarmDescription: 'Average database CPU utilization over last 10 minutes too high.'
+      ComparisonOperator: GreaterThanThreshold
+      EvaluationPeriods: 1
+      MetricName: CPUUtilization
+      Namespace: 'AWS/RDS'
+      Period: 600
+      Statistic: Average
+      Threshold: 80
+
+  DatabaseCPUCreditBalanceTooLowAlarm:
+    Type: 'AWS::CloudWatch::Alarm'
+    Properties:
+      AlarmDescription: 'Average database CPU credit balance over last 10 minutes too low, expect a significant performance drop soon.'
+      ComparisonOperator: LessThanThreshold
+      EvaluationPeriods: 1
+      MetricName: CPUCreditBalance
+      Namespace: 'AWS/RDS'
+      Period: 600
+      Statistic: Average
+      Threshold: 20
+
+  MySecretA:
+    Type: 'AWS::SecretsManager::Secret'
+    Properties:
+      Name: MySecretForAppA
+      Description: "This secret has a dynamically generated secret password."
+      GenerateSecretString:
+        SecretStringTemplate: '{"username": "test-user"}'
+        GenerateStringKey: "password"
+        PasswordLength: 30
+        ExcludeCharacters: '"@/\'
+      Tags:
+        -
+          Key: AppName
+          Value: AppA
+
+Outputs:
+  VpcId:
+    Description: The VPC ID
+    Value: !Ref VPC
